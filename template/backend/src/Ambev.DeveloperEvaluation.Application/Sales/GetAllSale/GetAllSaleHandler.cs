@@ -3,23 +3,23 @@ using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 
-namespace Ambev.DeveloperEvaluation.Application.Sales.GetBySaleId;
+namespace Ambev.DeveloperEvaluation.Application.Sales.GetAllSale;
 
 /// <summary>
-/// Handler for processing GetBySaleIdCommand requests
+/// Handler for processing GetAllSaleCommand requests
 /// </summary>
-public class GetBySaleIdHandler : IRequestHandler<GetBySaleIdQuery, GetBySaleIdResult>
+public class GetAllSaleHandler : IRequestHandler<GetAllSaleQuery, GetAllSaleResult>
 {
     private readonly ISaleRepository _saleRepository;
     private readonly IMapper _mapper;
 
     /// <summary>
-    /// Initializes a new instance of GetBySaleIdHandler
+    /// Initializes a new instance of GetAllSaleHandler
     /// </summary>
     /// <param name="saleRepository">The sale repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
-    /// <param name="validator">The validator for GetBySaleIdCommand</param>
-    public GetBySaleIdHandler(
+    /// <param name="validator">The validator for GetAllSaleCommand</param>
+    public GetAllSaleHandler(
         ISaleRepository saleRepository,
         IMapper mapper)
     {
@@ -28,14 +28,14 @@ public class GetBySaleIdHandler : IRequestHandler<GetBySaleIdQuery, GetBySaleIdR
     }
 
     /// <summary>
-    /// Handles the GetBySaleIdCommand request
+    /// Handles the GetAllSaleCommand request
     /// </summary>
-    /// <param name="request">The GetBySaleId command</param>
+    /// <param name="request">The GetAllSale command</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The sale details if found</returns>
-    public async Task<GetBySaleIdResult> Handle(GetBySaleIdQuery request, CancellationToken cancellationToken)
+    public async Task<GetAllSaleResult> Handle(GetAllSaleQuery request, CancellationToken cancellationToken)
     {
-        var validator = new GetBySaleIdValidator();
+        var validator = new GetAllSaleValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
@@ -43,12 +43,8 @@ public class GetBySaleIdHandler : IRequestHandler<GetBySaleIdQuery, GetBySaleIdR
             throw new ValidationException(validationResult.Errors);
         }
 
-        var sale = await _saleRepository.GetByIdAsync(request.Id, cancellationToken);
-        if (sale == null)
-        {
-            throw new KeyNotFoundException($"Sale with ID {request.Id} not found");
-        }
-
-        return _mapper.Map<GetBySaleIdResult>(sale);
+        var sale = await _saleRepository.GetAllAsync(cancellationToken);
+        
+        return _mapper.Map<GetAllSaleResult>(sale);
     }
 }
