@@ -3,23 +3,23 @@ using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 
-namespace Ambev.DeveloperEvaluation.Application.Users.GetUser;
+namespace Ambev.DeveloperEvaluation.Application.Users.GetAllUser;
 
 /// <summary>
-/// Handler for processing GetUserCommand requests
+/// Handler for processing GetAllUserCommand requests
 /// </summary>
-public class GetUserHandler : IRequestHandler<GetUserQuery, GetUserResult>
+public class GetAllUserHandler : IRequestHandler<GetAllUserQuery, List<GetAllUserResult>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
 
     /// <summary>
-    /// Initializes a new instance of GetUserHandler
+    /// Initializes a new instance of GetAllUserHandler
     /// </summary>
     /// <param name="userRepository">The user repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
-    /// <param name="validator">The validator for GetUserCommand</param>
-    public GetUserHandler(
+    /// <param name="validator">The validator for GetAllUserCommand</param>
+    public GetAllUserHandler(
         IUserRepository userRepository,
         IMapper mapper)
     {
@@ -28,12 +28,12 @@ public class GetUserHandler : IRequestHandler<GetUserQuery, GetUserResult>
     }
 
     /// <summary>
-    /// Handles the GetUserCommand request
+    /// Handles the GetAllUserCommand request
     /// </summary>
-    /// <param name="request">The GetUser command</param>
+    /// <param name="request">The GetAllUser command</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The user details if found</returns>
-    public async Task<GetUserResult> Handle(GetUserQuery request, CancellationToken cancellationToken)
+    public async Task<List<GetAllUserResult>> Handle(GetAllUserQuery request, CancellationToken cancellationToken)
     {
         var validator = new GetAllUserValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -41,10 +41,10 @@ public class GetUserHandler : IRequestHandler<GetUserQuery, GetUserResult>
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var user = await _userRepository.GetByIdAsync(request.Id, cancellationToken);
-        if (user == null)
-            throw new KeyNotFoundException($"User with ID {request.Id} not found");
+        var users = await _userRepository.GetAllAsync(cancellationToken);
+        if (users == null || !users.Any())
+            throw new KeyNotFoundException("No Users found");
 
-        return _mapper.Map<GetUserResult>(user);
+        return _mapper.Map<List<GetAllUserResult>>(users);
     }
 }
