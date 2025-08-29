@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Ambev.DeveloperEvaluation.Application.Users.GetAllUser;
+using AutoMapper;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.ListUsers;
 
@@ -12,6 +13,6 @@ public class ListUsersProfile : Profile
     /// </summary>
     public ListUsersProfile()
     {
-        CreateMap<ListUsersRequest, Application.Users.GetAllUser.GetAllUserQuery>();
+        CreateMap<ListUsersRequest, GetAllUserQuery>();
     }
 }
