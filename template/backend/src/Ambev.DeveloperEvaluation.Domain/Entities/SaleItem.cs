@@ -8,7 +8,6 @@ using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
-
 /// <summary>
 /// Represents an item within a sale.
 /// This entity belongs to the Sale aggregate and

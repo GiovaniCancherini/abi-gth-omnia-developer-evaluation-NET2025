@@ -2,7 +2,6 @@ using Ambev.DeveloperEvaluation.Domain.Entities;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories;
 
-
 /// <summary>
 /// Repository contract for managing persistence operations
 /// of the <see cref="Sale"/> aggregate root.

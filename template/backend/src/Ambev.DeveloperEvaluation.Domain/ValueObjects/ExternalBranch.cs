@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.Domain.ValueObjects
 {
-
-
     /// <summary>
     /// Represents a snapshot reference of an external Branch.
     /// 
