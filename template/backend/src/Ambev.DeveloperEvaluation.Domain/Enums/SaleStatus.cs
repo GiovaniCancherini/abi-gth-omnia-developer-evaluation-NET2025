@@ -3,8 +3,6 @@ namespace Ambev.DeveloperEvaluation.Domain.Enums;
 public enum SaleStatus
 {
     Unknown = 0,
-    Openned,
-    Completed,
-    Cancelled,
-    Deleted
+    Active,
+    Cancelled
 }

@@ -1,14 +1,7 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Common;
 
 namespace Ambev.DeveloperEvaluation.Domain.Events
 {
-    public class UserRegisteredEvent
-    {
-        public User User { get; }
-
-        public UserRegisteredEvent(User user)
-        {
-            User = user;
-        }
-    }
+    public sealed record UserRegisteredEvent (User user) : DomainEvent;
 }
